@@ -37,7 +37,7 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        fm.Include("com.reader.Reader");
+        fm.Include("Starter");
     }
 };
 

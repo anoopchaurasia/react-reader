@@ -4,7 +4,7 @@ fm.Import("com.reader.setting.Settings");
 fm.Include("jsfm.Utility");
 fm.Include("lib.react");
 fm.Include("lib.fastclick");
-fm.Include("lib.router");
+fm.Include("com.reader.Router");
 fm.Class("Reader", function (me, FeedList, Settings){this.setMe=function(_me){me=_me;};
     'use strict';
     this.setMe = function (_me) { me = _me };

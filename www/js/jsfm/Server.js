@@ -1,5 +1,5 @@
 fm.Package("jsfm");
-fm.Implements("com.app.Config");
+fm.Implements("com.reader.app.Config");
 fm.Class("Server");
 jsfm.Server = function (me, SignUp) {
 	'use strict';

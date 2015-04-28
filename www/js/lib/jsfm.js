@@ -726,7 +726,11 @@
 			Class.prototype = obj;
 			fileLoadeManager.iamready(this.getClass(), this);
 			if(data && typeof data[data.length -1] == 'function'){
-				data.pop()();
+				(function(fun){
+					setTimeout(function(){
+						fun();
+					});
+				})(data.pop())
 			}
 			if (typeof this.main == 'function') {
 				var s= this;
