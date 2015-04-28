@@ -3,7 +3,9 @@ fm.Import("com.user.InterestList");
 fm.Include("react.interestList");
 fm.Class("SelectInterest>jsfm.Page", function(me, InterestList){ this.setMe = function(_me){me=_me};
 
-	this.SelectInterest = function (){
+    var starter;
+	this.SelectInterest = function (st) {
+        starter = st;
 		me.interests = new InterestList();
 	};
 
@@ -12,8 +14,8 @@ fm.Class("SelectInterest>jsfm.Page", function(me, InterestList){ this.setMe = fu
             React.createElement(InteresetClass.interest, me),
             document.body
         );
-        jsfm.Server.get({}, "http://sandbox.feedly.com/v3/tags", function(){
-        	debugger
+        starter.services.getFeeds(function (){
+            debugger;
         });
         cb && cb($(document.body.childNodes[0]));
 	};

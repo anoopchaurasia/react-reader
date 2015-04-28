@@ -25,16 +25,13 @@ fm.Class("Starter", function (me, Server, Services, Router) {
 	};
 
 	this.Starter = function (){
-
+		me.services = new Services();
 		Starter.getInstance(me);
 		if(!window.localStorage){
 			window.localStorage = {};
 		}
 		Server.setHttp(jQuery.ajax);
 
-		if(!localStorage.access_token){
-			Services.getTokenFromCode();
-		}
 		$.ajaxSetup({
 	    	headers: {
 	    		'Authorization': localStorage.access_token

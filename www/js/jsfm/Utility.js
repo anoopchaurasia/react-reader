@@ -177,8 +177,13 @@ jsfm.Utility = function (me) {
 
     Static.getTimeDiffInMinutes = function (start, end) {
         var startTime = Date.parse(start);
-        return Math.floor((Date.parse(end).getTime() - startTime.getTime()) / 60000);
+        return Math.floor(this.getTimeDiffInSeconds(startTime, end) / 60);
     };
+
+    Static.getTimeDiffInSeconds = function (start, end){
+        return  Math.floor((end.getTime() - start.getTime()) / 1000);
+    };
+
 
     Static.getFormatedTimeDiff = function (start, end) {
         if (!start) return;

@@ -15,6 +15,10 @@ jsfm.Server = function (me, SignUp) {
 		send("PUT", url, data, cb, error);
 	};
 
+	Static.getGetUrl = function (data, url){
+		return url + "?" + $.param(data);
+	};
+
 	Static.post = function(data, url, cb, error) {
 		send("POST", url, data, cb, error);
 	};

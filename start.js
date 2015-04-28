@@ -9,18 +9,20 @@ fs = require("fs");
 
 var cnst;
 function watch(path) {
+	console.log(path);
 	fs.watch(path, function (){
 		clearTimeout(cnst);
 		cnst = setTimeout(function (){
-			sys.exec("cordova build browser", puts);
+			exec("cordova build browser", puts);
 		}, 3000);
 	});
 }
 
-	// watch(__dirname + "/www/js");
-	// watch(__dirname + "/www/js/com/reader/page");
-	// watch(__dirname + "/www/css");
-	// watch(__dirname + "/www/js/jsfm");
-	// watch(__dirname + "/www/html");
-sys.exec("cordova build browser", puts);
-sys.exec("cordova serve", puts);
+watch(__dirname + "/www/js/src/com/reader/page");
+watch(__dirname + "/www/css");
+watch(__dirname + "/www/js");
+watch(__dirname + "/www");
+watch(__dirname + "/www/js/jsfm");
+watch(__dirname + "/www/html");
+exec("cordova build browser", puts);
+exec("cordova serve", puts);
