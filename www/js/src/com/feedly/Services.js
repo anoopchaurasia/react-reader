@@ -1,7 +1,8 @@
 fm.Package("com.feedly");
 fm.Import("jsfm.Utility");
 fm.Import("jsfm.Server");
-fm.Class("Services", function (me, Utility, Server) { this.setMe=function(_me) {me=_me};
+fm.Import("com.feedly.ContentList");
+fm.Class("Services", function (me, Utility, Server, ContentList) { this.setMe=function(_me) {me=_me};
 
 	this.Services = function (){
 		this.baseurl = "http://sandbox.feedly.com/v3/";
@@ -70,7 +71,7 @@ fm.Class("Services", function (me, Utility, Server) { this.setMe=function(_me) {
 			return;
 		}
 		Server.get({streamId: "user/"+localStorage.user_id+"/category/global.all"}, me.baseurl + "streams/contents", function (data) {
-
+			cb(new ContentList(data.items));
 		});
 	};
 

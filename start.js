@@ -21,6 +21,7 @@ function watch(path) {
 watch(__dirname + "/www/js/src/com/reader/page");
 watch(__dirname + "/www/css");
 watch(__dirname + "/www/js");
+watch(__dirname + "/www/js/src/com/feedly");
 watch(__dirname + "/www");
 watch(__dirname + "/www/js/jsfm");
 watch(__dirname + "/www/html");

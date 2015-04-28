@@ -21,7 +21,7 @@ fm.Class("Router", function (me) { this.setMe = function(_me){me=_me};
 
 	this.initialize = function(router, defaultPath) {
 		router.addRoute('/interests', function(path) {
-			loadPage('com.reader.page.SelectInterest', function(){});
+			loadPage('com.reader.page.Contents', function(){});
 		});
 		router.start();
 		router.load("#/"+defaultPath);

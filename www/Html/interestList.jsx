@@ -4,7 +4,9 @@ InteresetClass.interest = React.createClass({
     render: function () {
 		return  <div>
 				<InteresetClass.header/>
-				<InteresetClass.list interests={this.props.interests}/>
+				<div className="content">
+					<InteresetClass.list contents={this.props.contentList}/>
+				</div>
 		</div>
 	}
 });
@@ -19,11 +21,11 @@ InteresetClass.header = React.createClass({
 
 InteresetClass.list = React.createClass({
 	render: function (){
-		var list =  this.props.interests.items.map(function(interest){
-			return <li> {interest.name} </li>
+		var list =  this.props.contents.items.map(function(interest){
+			return <li className="table-view-cell"> <a href={"#contents/"+interest.id}> {interest.title} </a></li>
 		});
 
-		return <ul>
+		return <ul className="table-view">
 			{list}
 			</ul>
 	}
