@@ -6,6 +6,6 @@ fm.Class("Content", function (me, Utility, Server) { this.setMe=function(_me) {m
 		this.content = c.content? c.content.content : null;
 		this.summary = c.summary? c.summary.content: null;
 		this.author = c.author;
-		this.id = c.id;
+		this.id = encodeURIComponent(c.id);
 	};
 });

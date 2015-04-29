@@ -1,6 +1,6 @@
-fm.Package("lib");
+fm.Package("com.fill");
 fm.Class("FillContent");
-lib.FillContent = function (me) {
+com.fill.FillContent = function (me) {
 	this.setMe = function( _me ) {
 		me = _me;
 	};
@@ -13,21 +13,26 @@ lib.FillContent = function (me) {
 			return tag != 'br' && tag != 'img' && $.trim($(this).text()) == '';
 		}).remove();
 	};
-	this.truncateWithHeight = function( dom, from, origHtml ) {
+	this.truncateWithHeight = function( dom, from, origHtml, cb) {
  		var lineHeight = parseInt(dom.css("line-height"));
 		dom.html(origHtml);
+		var parent = dom.parent();
  		var limit = dom.height() + dom.offset().top;
  		$(dom.find(".a").splice(0, from)).remove();
-		dom.SkipRoot(true);
-		dom.find("img.a").filter(function(a, index){
-		  return $(this).height() + $(this).offset().top > limit;
-		}).remove();
-		dom.find(".a").filter(function(a, index){
-		  return $(this).height() + $(this).offset().top > limit;
-		}).remove();
-		var len = dom.find(".a").length;
-		dom.SkipRoot();
-		return [ from + len, len ];
+		setTimeout(function(){
+			// dom.detach();
+			dom.SkipRoot(true);
+			dom.find("img.a").filter(function(a, index){
+			  return $(this).height() + $(this).offset().top > limit;
+			}).remove();
+			dom.find(".a").filter(function(a, index){
+			  return $(this).height() + $(this).offset().top > limit;
+			}).remove();
+			var len = dom.find(".a").length;
+			dom.SkipRoot();
+			dom.appendTo(parent);
+			cb([ from + len, len ]);
+		}, 1000);
 	};
 	this.FillContent = function( ) {
 

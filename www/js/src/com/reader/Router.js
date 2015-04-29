@@ -19,8 +19,21 @@ fm.Class("Router", function (me) { this.setMe = function(_me){me=_me};
 		});
 	}
 
+	function render (instance){
+		destroy(instance);
+		instance.render(function (element){
+			starter.slider.slidePage(element);
+		});
+	}
+
 	this.initialize = function(router, defaultPath) {
-		router.addRoute('/interests', function(path) {
+		router.addRoute('/contents/:id', function(id) {
+			fm.Include("com.reader.page.Content", function () {
+				var instance = new com.reader.page.Content(id, starter);
+				render(instance);
+			});
+		});
+		router.addRoute('/contents', function(path) {
 			loadPage('com.reader.page.Contents', function(){});
 		});
 		router.start();

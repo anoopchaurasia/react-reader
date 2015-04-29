@@ -1,8 +1,9 @@
 fm.Package('');
 fm.Import("jsfm.Server");
 fm.Import("com.feedly.Services");
+fm.Import("com.feedly.ContentList");
 fm.Import("com.reader.Router");
-fm.Class("Starter", function (me, Server, Services, Router) {
+fm.Class("Starter", function (me, Server, Services, ContentList, Router) {
 	'use strict';
 
 	this.setMe = function (_me){
@@ -26,6 +27,7 @@ fm.Class("Starter", function (me, Server, Services, Router) {
 
 	this.Starter = function (){
 		me.services = new Services();
+		me.contentList = new ContentList([]);
 		Starter.getInstance(me);
 		if(!window.localStorage){
 			window.localStorage = {};

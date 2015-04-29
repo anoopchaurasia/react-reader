@@ -71,7 +71,7 @@ fm.Class("Services", function (me, Utility, Server, ContentList) { this.setMe=fu
 			return;
 		}
 		Server.get({streamId: "user/"+localStorage.user_id+"/category/global.all"}, me.baseurl + "streams/contents", function (data) {
-			cb(new ContentList(data.items));
+			cb(data);
 		});
 	};
 
