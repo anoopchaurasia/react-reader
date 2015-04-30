@@ -41,7 +41,7 @@ fm.Class("Starter", function (me, Server, Services, ContentList, Router) {
 		});
 		me.currentPage = null;
 		me.slider = new PageSlider($('body'));
-		new Router(me).initialize(router, location.hash.substring(2) ||'newslist');
+		new Router(me).initialize(router, location.hash.substring(2) ||'contents');
 	};
 
 	var backList = [];

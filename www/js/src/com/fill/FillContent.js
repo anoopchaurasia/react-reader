@@ -1,6 +1,7 @@
 fm.Package("com.fill");
 fm.Class("FillContent");
 com.fill.FillContent = function (me) {
+	'use strict';
 	this.setMe = function( _me ) {
 		me = _me;
 	};
@@ -13,26 +14,40 @@ com.fill.FillContent = function (me) {
 			return tag != 'br' && tag != 'img' && $.trim($(this).text()) == '';
 		}).remove();
 	};
-	this.truncateWithHeight = function( dom, from, origHtml, cb) {
- 		var lineHeight = parseInt(dom.css("line-height"));
-		dom.html(origHtml);
-		var parent = dom.parent();
- 		var limit = dom.height() + dom.offset().top;
- 		$(dom.find(".a").splice(0, from)).remove();
-		setTimeout(function(){
-			// dom.detach();
-			dom.SkipRoot(true);
-			dom.find("img.a").filter(function(a, index){
-			  return $(this).height() + $(this).offset().top > limit;
-			}).remove();
-			dom.find(".a").filter(function(a, index){
-			  return $(this).height() + $(this).offset().top > limit;
-			}).remove();
-			var len = dom.find(".a").length;
-			dom.SkipRoot();
-			dom.appendTo(parent);
-			cb([ from + len, len ]);
-		}, 1000);
+
+	function createElem (obj) {
+		var elem = document.createElement(obj.tag);
+		elem.attributes = obj.attributes;
+		if(obj.content) {
+			elem.innerHTML = obj.content;
+		}
+		return elem;
+	};
+
+	function addElem (dom, obj, limit, arr){
+		var elem = createElem(obj);
+ 		dom.appendChild(elem);
+ 		var e = $(elem);
+ 		if(e.height() + e.offset().top > limit) {
+ 			e.detach();
+ 			return [];
+ 		}
+ 		var t;
+ 		for (var i = (arr.pop()||0); i < obj.childs.length; i++) {
+ 			t = addElem(elem, obj.childs[i], limit, arr);
+ 			if(t) {
+ 				t.push(i);
+ 				return t;
+ 			}
+ 		};
+
+	}
+	this.truncateWithHeight = function(dom, obj, cb, arr) {
+ 		var limit = dom.height() + dom.offset().top - 48;
+ 		setTimeout(function(){
+	 		var t = addElem(dom[0], obj, limit, arr);
+	 		cb(t);
+ 		}, 100);
 	};
 	this.FillContent = function( ) {
 

@@ -44,31 +44,39 @@ fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_
             elem.find("div.s").html('<img style="max-width:100%;max-height:100%" src="'+image.url+'">');
             var imageHeight = Math.min(image.height, (articalWidth/image.width)*image.height);
 			elem.find("div.s").append("<div class='inImage' style='height:"+ (bodyHeight - removeHeight - 10 - imageHeight ) + "px; width:100%'></div>");
-			trancatedLength = content.truncateWithHeight(elem.find("div.inImage"), trancatedLength[0], data);
+			//trancatedLength = content.truncateWithHeight(elem.find("div.inImage"), trancatedLength[0], data);
 		}
+        var e = 0;
+        var t= new Date().getTime();
         function recursive(trancatedLength) {
-            if (trancatedLength[1] <= 0) {
-               // renderComplete(1, i);
-                articleContainer.append('<br style="clear:both" />');
+            i++;
+            if(!trancatedLength) {
+                alert(i);
                 return;
             }
-            i++;
             var elem;
             articleContainer.width((i) * (articalWidth + 40));
             elem = $(htm).appendTo(articleContainer);
             elem.find("div.s").height(bodyHeight - removeHeight - 10).width(articalWidth);
-            content.truncateWithHeight(elem.find("div.s"), trancatedLength[0], data, recursive);
+            content.truncateWithHeight(elem.find("div.s"), data, recursive, trancatedLength);
         }
-        recursive(trancatedLength);
+        recursive([]);
     }
 
      var myRegEx = /<\/?[^<>]*\/?>/gim;
 	Static.stripHTML = function (htmlStr) {
+        htmlStr = htmlStr.replace(/>|</gim, function(a){ return a=='>'?"> ": " <"})
+        .replace(/\sstyle=""/gim, " ").replace( /(\s*)<\/?[^<>]*\/?>|(\s*)(.*?)\s/gim,function(a, b){
+            if(a.match(/<\/?[^<>]*\/?>/gim)) return a;
+            return "<span class='a'>"+ a+" </span>";
+        });
 		var html = $("<div>"+htmlStr+"</div>");
+        html.find("iframe").remove();
 		var imageList = [];
 		var temp;
 		html
 		 .find("img").filter(function( ) {
+            return true;
 		 	var outerHTML = this.outerHTML;
 				temp = {
 
@@ -85,13 +93,23 @@ fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_
 				return true;
 
 		}).remove();
-		html.find("iframe").remove();
-		var counter = 0;
-		return html.html().replace(/>|</gim, function(a){ return a=='>'?"> ": " <"})
-		.replace(/\sstyle=""/gim, " ").replace( /(\s*)<\/?[^<>]*\/?>|(\s*)(.*?)\s/gim,function(a, b){
-			if(a.match(/<\/?[^<>]*\/?>/gim)) return a;
-			return "<span id='word-"+ counter++ +"' class='a'>"+ a+" </span>";
-		});
+		return createTags(html[0], {});
 	};
+    function createTags(elem, storage) {
+        storage.attributes = elem.attributes;
+        storage.tag = elem.tagName;
+        storage.childs = [];
+        if(elem.className == "a") {
+            storage.content = elem.innerHTML;
+            return storage;
+        }
+        for (var i = 0; i < elem.childNodes.length; i++) {
+            t= elem.childNodes[i];
+            if( !(t.nodeName == "#text" && t.nodeValue.trim() == "")) {
+                storage.childs.push(createTags(t, {}));
+            }
+        };
+        return storage;
+    }
 
 });

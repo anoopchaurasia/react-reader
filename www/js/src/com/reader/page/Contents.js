@@ -16,10 +16,18 @@ fm.Class("Contents>jsfm.Page", function(me, InterestList){ this.setMe = function
             React.createElement(ContentListClass.root, me),
             div
         );
-        starter.services.getFeeds(function (data){
-            starter.contentList.multiSet(data.items);
+        $.get("html/temp.html", function(data){
+            starter.contentList.set({
+                title:"Gandhi",
+                content:{content: data},
+                author:"Anoop",
+                id:1
+            });
             me.react.setState({content: starter.contentList});
         });
+        // starter.services.getFeeds(function (data){
+        //     starter.contentList.multiSet(data.items);
+        // });
         cb && cb($(div));
 	};
 });
