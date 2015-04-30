@@ -36,22 +36,9 @@ fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_
         var content = new FillContent();
         var i = 0;
         var removeHeight = margins + 30;
-		//data = "<h1 class='title'>" + me.article.title + "</h1>" + data;
-        if(false){
-            i = 1;
-            var elem = $(htm).appendTo(articleContainer);
-            elem.find("div.s").height(bodyHeight - removeHeight - 10).width(articalWidth);
-            elem.find("div.s").html('<img style="max-width:100%;max-height:100%" src="'+image.url+'">');
-            var imageHeight = Math.min(image.height, (articalWidth/image.width)*image.height);
-			elem.find("div.s").append("<div class='inImage' style='height:"+ (bodyHeight - removeHeight - 10 - imageHeight ) + "px; width:100%'></div>");
-			//trancatedLength = content.truncateWithHeight(elem.find("div.inImage"), trancatedLength[0], data);
-		}
-        var e = 0;
-        var t= new Date().getTime();
         function recursive(trancatedLength) {
             i++;
             if(!trancatedLength) {
-                alert(i);
                 return;
             }
             var elem;

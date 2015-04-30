@@ -45,7 +45,9 @@ com.fill.FillContent = function (me) {
 	this.truncateWithHeight = function(dom, obj, cb, arr) {
  		var limit = dom.height() + dom.offset().top - 48;
  		setTimeout(function(){
+ 			var ttt= new Date().getTime();
 	 		var t = addElem(dom[0], obj, limit, arr);
+	 		!arr.length && alert(new Date().getTime() - ttt);
 	 		cb(t);
  		}, 100);
 	};
