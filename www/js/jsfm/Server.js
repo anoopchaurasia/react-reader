@@ -60,7 +60,8 @@ jsfm.Server = function (me, SignUp) {
 			url: url,
 			data: method === "GET" ? copy : JSON.stringify(copy),
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.access_token
 			},
 			success: function(resp, status, header) {
 				console.log(typeof resp);
@@ -74,9 +75,9 @@ jsfm.Server = function (me, SignUp) {
 					if(navigator.connection && navigator.connection.type === 'none') {
 						resp.statusText = "No Network";
 					}
-					Bugsense.notify( new Error("error" + resp.statusText + " status " + status + " url "+ url ), { status: status});
+					Bugsense.notify( new Error("error" + resp.statusText + " status " + status + " responseText " + resp.responseText + " url "+ url+ " header "+ url ), { status: status});
 				} catch (e) {
-					Bugsense.notify( new Error("error while saving error" + resp), { status: status});
+					Bugsense.notify( new Error("error while saving error" + resp+ " responseText " + resp.responseText), { status: status});
 				}
 				if(error) error.apply(this, [resp]);
 			}

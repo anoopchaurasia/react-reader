@@ -46,7 +46,6 @@ body {
 	margin: 0;
 	left: 50%;
 	font-family: Georgia,  serif, Verdana, Helvetica, sans-serif;
-	text-align: justify;
 	background-color: white;
 	font-size: 11px;
 	color: black;
@@ -429,4 +428,8 @@ body, html {
 }
 a {
 	text-decoration: none;
+}
+
+#articleContainer .s, #articleContainer .parent {
+	max-height: 100%;
 }

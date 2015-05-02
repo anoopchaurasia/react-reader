@@ -4,36 +4,37 @@ fm.Import("jsfm.Server");
 fm.Import("com.feedly.ContentList");
 fm.Class("Services", function (me, Utility, Server, ContentList) { this.setMe=function(_me) {me=_me};
 
-	this.Services = function (){
-		this.baseurl = "http://sandbox.feedly.com/v3/";
-		this.client_id = "sandbox";
-		this.grant_type = "authorization_code";
-		this.redirect_uri = "http://localhost:8080";
-		this.client_secret = "4205DQXBAP99S8SUHXI3";
-		this.code= "AhaMVu97ImkiOiI4YjdmZjE2MC03MTQxLTRlYTUtYjM0NC1jYWMwYmI3Nzk0OWUiLCJ1IjoiMTA5MzQ3NDMxMDUxNzYzMTE5MzE4IiwiYSI6IkZlZWRseSBzYW5kYm94IGNsaWVudCIsInAiOjYsInQiOjE0MzAyMzQ1MzU3NDd9";
+	this.init = function (){
+		Static.baseurl = "http://sandbox.feedly.com/v3/";
+		Static.client_id = "sandbox";
+		Static.redirect_uri = "http://localhost:8080";
+		Static.scope = "https://cloud.feedly.com/subscriptions";
+		Static.client_secret = "4205DQXBAP99S8SUHXI3";
 	};
 
-	this.getCode = function (cb){
-		var url = Server.getGetUrl({
+	Static.getLoginJson = function (){
+		return {
 			client_id: this.client_id,
 			client_secret: this.client_secret,
 			response_type: "code",
-			scope:"https://cloud.feedly.com/subscriptions",
-			grant_type: this.grant_type,
-			redirect_uri: this.redirect_uri
-		}, me.baseurl + "auth/auth");
-		var w= window.open(url);
-		w.onload = function (){
-			debugger;
+			auth_url: this.baseurl + "auth/auth",
+			redirect_uri: this.redirect_uri,
+			other_params: {
+				scope: this.scope,
+				state: 23453423554234,
+				grant_type: "authorization_code"
+			}
 		};
 	};
+	this.Services = function (){
+	};
 
-	this.getTokenFromCode = function (cb){
+	this.getTokenFromCode = function (token, cb){
 		Server.post({
 			client_id: this.client_id,
 			client_secret: this.client_secret,
-			"code": this.code,
-			grant_type: this.grant_type,
+			"code": token,
+			grant_type: "authorization_code",
 			redirect_uri: this.redirect_uri
 		}, me.baseurl + "auth/token",
 		function(data){
@@ -48,12 +49,13 @@ fm.Class("Services", function (me, Utility, Server, ContentList) { this.setMe=fu
 		    	}
 			});
 			cb && cb();
+		}, function(e){
 		});
 	};
 
 	function isLoggedIn (cb){
 		if(!localStorage.access_token) {
-			me.getTokenFromCode(cb);
+			me.getTokenFromCode(null, cb);
 			return  false;
 		}
 
@@ -70,8 +72,9 @@ fm.Class("Services", function (me, Utility, Server, ContentList) { this.setMe=fu
 		})) {
 			return;
 		}
-		Server.get({count: 3,streamId: "user/"+localStorage.user_id+"/category/global.all"}, me.baseurl + "streams/contents", function (data) {
+		Server.get({count: 10,streamId: "user/"+localStorage.user_id+"/category/global.all"}, me.baseurl + "streams/contents", function (data) {
 			cb(data);
+		}, function(resp){
 		});
 	};
 

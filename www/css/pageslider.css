@@ -66,12 +66,12 @@
     transform: translate3d(0, 100%, 0);
 }
 
-.page.transition {
+.page.transition, #articleContainer {
     -webkit-transition-duration: .25s;
     transition-duration: .25s;
 }
 
-.page-half.transition {
+.page-half.transition, #articleContainer {
     -webkit-transition-duration: .25s;
     transition-duration: .25s;
 }

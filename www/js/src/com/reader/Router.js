@@ -9,7 +9,11 @@ fm.Class("Router", function (me) { this.setMe = function(_me){me=_me};
 		starter = st;
 	};
 
-	function loadPage (klass, cb){
+	function loadPage (klass, cb) {
+		if(!starter.isLoggedIn() && klass !== "com.reader.page.FirstPage") {
+			starter.load("login");
+			return;
+		}
 		fm.Include(klass, function () {
 			var instance = new (fm.isExist(klass))(starter);
 			destroy(instance);
@@ -32,6 +36,13 @@ fm.Class("Router", function (me) { this.setMe = function(_me){me=_me};
 				var instance = new com.reader.page.Content(id, starter);
 				render(instance);
 			});
+		});
+		router.addRoute('/login', function(path) {
+			if(starter.isLoggedIn()){
+				starter.load('contents');
+				return;
+			}
+			loadPage('com.reader.page.FirstPage', function(){});
 		});
 		router.addRoute('/contents', function(path) {
 			loadPage('com.reader.page.Contents', function(){});

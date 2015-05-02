@@ -6,7 +6,12 @@ fm.AbstractClass("Page", function (me) {
 
 	this.Page = function () {
 		this.destroyed = false;
+		Starter.onBackButton(me.getSub().onBackButton);
 	};
+
+	this.onBackButton = function () {
+        history.back();
+    };
 
 	this.render = function (data, cb, keys, isOverlay){
 		if(me.destroyed) return;

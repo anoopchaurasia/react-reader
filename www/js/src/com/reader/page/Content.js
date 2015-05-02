@@ -1,10 +1,17 @@
+
+var data;
+$.get('html/temp.html', function(d){
+    data = d;
+});
 fm.Package("com.reader.page");
 fm.Include("react.content");
 fm.Import("com.fill.FillContent");
 fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_me){me=_me};
 
 	this.Content = function (id, starter){
-		this.content = starter.contentList.getById(id);
+		this.content = {
+            content: data
+        };
 	};
 
 	this.render = function (cb){
@@ -15,7 +22,56 @@ fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_
         );
         cb && cb($(div));
         create(me.content.content||me.content.summary, {height:0, width:0});
+        $(document).off('horizontal-scroll').on('horizontal-scroll', me.swipe);
+        //$(document).off('keyup').on('keyup', me.swipeKeyPress);
 	};
+
+    this.swipeKeyPress = function (){
+       // switch();
+    }
+
+    this.swipe = function (e, start, end, diff){
+        if(diff > 0) {
+            me.goToPrevPage();
+        } else {
+            me.goToNextPage();
+        }
+    };
+
+    this.goToNextPage = function (){
+        setTransformValue ("-");
+    };
+
+    function setTransformValue (operator) {
+         var w=$(window).width();
+        var articleContainer = $("#articleContainer");
+        oldStyle = articleContainer[0].style.transform.match(/((-|)\d+)/g);
+        if(oldStyle) {
+            oldStyle = oldStyle[1]*1;
+        }else {
+            oldStyle = 0;
+        }
+        var newValue;
+        switch(operator) {
+            case "+" :{
+                newValue = oldStyle + w;
+                break;
+            }
+            case "-" : {
+                newValue = oldStyle - w;
+                break;
+            }
+        }
+        articleContainer.css({
+            "-webkit-transform": "translate3d("+newValue+"px, 0, 0)",
+            "transform": "translate3d("+newValue+"px, 0, 0)"
+        });
+    }
+
+     this.goToPrevPage = function (){
+       setTransformValue ("+");
+    };
+
 
 	function getWidth(fs) {
         var w = jQuery(window).width(), cw = fs * multi;
@@ -42,7 +98,7 @@ fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_
                 return;
             }
             var elem;
-            articleContainer.width((i) * (articalWidth + 40));
+            articleContainer.width((i+1) * (articalWidth + 40));
             elem = $(htm).appendTo(articleContainer);
             elem.find("div.s").height(bodyHeight - removeHeight - 10).width(articalWidth);
             content.truncateWithHeight(elem.find("div.s"), data, recursive, trancatedLength);
@@ -59,11 +115,9 @@ fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_
         });
 		var html = $("<div>"+htmlStr+"</div>");
         html.find("iframe").remove();
-		var imageList = [];
 		var temp;
 		html
 		 .find("img").filter(function( ) {
-            return true;
 		 	var outerHTML = this.outerHTML;
 				temp = {
 

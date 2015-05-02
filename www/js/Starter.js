@@ -3,6 +3,7 @@ fm.Import("jsfm.Server");
 fm.Import("com.feedly.Services");
 fm.Import("com.feedly.ContentList");
 fm.Import("com.reader.Router");
+fm.Import("jsfm.Swipe");
 fm.Class("Starter", function (me, Server, Services, ContentList, Router) {
 	'use strict';
 
@@ -21,6 +22,10 @@ fm.Class("Starter", function (me, Server, Services, ContentList, Router) {
 		return singleton;
 	};
 
+	Static.isLoggedIn = function (){
+		return !!localStorage.access_token;
+	};
+
 	Static.load = function (path) {
 		router.load("#/"+path);
 	};
@@ -33,7 +38,6 @@ fm.Class("Starter", function (me, Server, Services, ContentList, Router) {
 			window.localStorage = {};
 		}
 		Server.setHttp(jQuery.ajax);
-
 		$.ajaxSetup({
 	    	headers: {
 	    		'Authorization': localStorage.access_token

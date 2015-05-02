@@ -6,6 +6,14 @@
     <link type="text/css" rel="stylesheet" href='css/reader.css' />
     <link type="text/css" rel="stylesheet" href='css/pageslider.css' />
     <link type="text/css" rel="stylesheet" href='css/ratchet/ratchet.css' />
+    <script type="text/javascript" src="js/lib/bugsense.min.js"></script>
+    <script type="text/javascript">''
+        Bugsense.initAndStartSession( { apiKey: "0afceb97" } );
+        function ooops() {
+          alert('Ooops! Our app just crashed. Please send us an email at hello@eventz.io');
+        }
+        Bugsense.on("crash", ooops);
+    </script>
     <script type="text/javascript" src="js/lib/jquery.js"></script>
     <script type="text/javascript" src="js/lib/jsfm.js"></script>
     <script type="text/javascript" src="js/lib/react.js"></script>
