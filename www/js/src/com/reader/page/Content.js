@@ -97,11 +97,18 @@ fm.Class("Content>jsfm.Page", function(me, FillContent){ this.setMe = function(_
             if(!trancatedLength) {
                 return;
             }
-            var elem;
             articleContainer.width((i+1) * (articalWidth + 40));
-            elem = $(htm).appendTo(articleContainer);
-            elem.find("div.s").height(bodyHeight - removeHeight - 10).width(articalWidth);
-            content.truncateWithHeight(elem.find("div.s"), data, recursive, trancatedLength);
+            htm = document.createElement('div');
+            htm.className = "parent selector";
+            var s = document.createElement("div");
+            s.className="s";
+            s.style.height = bodyHeight - removeHeight - 10 + "px";
+            s.style.width = articalWidth + "px";
+            htm.appendChild(s);
+            articleContainer[0].appendChild(htm);
+            setTimeOut = setTimeout (function () {
+                content.truncateWithHeight(s, data, recursive, trancatedLength);
+            }, 400);
         }
         recursive([]);
     }
