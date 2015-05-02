@@ -27,9 +27,8 @@ com.fill.FillContent = function (me) {
 	function addElem (dom, obj, limit, arr){
 		var elem = createElem(obj);
  		dom.appendChild(elem);
- 		var e = $(elem);
- 		if(e.height() + e.offset().top > limit) {
- 			e.detach();
+ 		if(elem.offsetTop > limit) {
+ 			$(elem).detach();
  			return [];
  		}
  		var t;
@@ -40,14 +39,11 @@ com.fill.FillContent = function (me) {
  				return t;
  			}
  		};
-
 	}
 	this.truncateWithHeight = function(dom, obj, cb, arr) {
- 		var limit = dom.height() + dom.offset().top - 48;
+ 		var limit = dom.height() + dom.offset().top - 24;
+	 	var t = addElem(dom[0], obj, limit, arr);
  		setTimeout(function(){
- 			var ttt= new Date().getTime();
-	 		var t = addElem(dom[0], obj, limit, arr);
-	 		!arr.length && alert(new Date().getTime() - ttt);
 	 		cb(t);
  		}, 100);
 	};
